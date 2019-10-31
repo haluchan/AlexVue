@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>05_HelloVuejs</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      .code {
+        color: #fff;
+        font-size: 20px;
+        line-height: 30px;
+        padding: 10px;
+        font-weight: bolder;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <section>
+        <div class="container">
+          <h1 v-if="nowCode">
+            {{ nowCode }} {{ nowCity.name }} {{ nowArea.name }}
+          </h1>
+          <h1 v-else>
+            請選擇縣市區域
+          </h1>
+          <select v-model="cityIndex">
+            <option :value="null">請選擇</option>
+            <option
+              v-for="(item,index) in postal"
+              :value="index"
+              :key="item.name"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <select v-model="areaIndex">
+            <option :value="null">請選擇</option>
+            <option
+              v-for="(item,index) in area"
+              :value="index"
+              :key="item.name"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <br />
+          <select v-model="index.direct" style="width: calc(100% - 20px);">
+            <option :value="null">請選擇</option>
+            <option
+              v-for="(item,index) in directList"
+              :value="index"
+              :key="item.name"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/axios.min.js"></script>
+    <script>
+      (async function() {
+        let postal = await axios
+          .get("../assets/postal.json")
+          .then(res => res.data);
+        new Vue({
+          el: "#app",
+          data: {
+            postal,
+            index: {
+              city: null,
+              area: null,
+              direct: 22
+            }
+          },
+          computed: {
+            cityIndex: {
+              get() {
+                return this.index.city;
+              },
+              set(val) {
+                this.index.city = val;
+                this.index.area = null;
+                this.index.direct = null;
+              }
+            },
+            areaIndex: {
+              get() {
+                return this.index.area;
+              },
+              set(val) {
+                this.index.area = val;
+                this.index.direct = null;
+              }
+            },
+            nowCity() {
+              return this.cityIndex !== null ? postal[this.cityIndex] : null;
+            },
+            area() {
+              return this.nowCity !== null ? this.nowCity.children : [];
+            },
+            nowArea() {
+              return this.areaIndex !== null ? this.area[this.areaIndex] : null;
+            },
+            nowCode() {
+              return this.nowArea !== null ? this.nowArea.code : "";
+            },
+            directList() {
+              let result = [];
+              this.postal.reduce((acc, city, cityIndex) => {
+                city.children.forEach((area, areaIndex) => {
+                  acc.push({
+                    name: `${area.code} ${city.name} ${area.name}`,
+                    cityIndex,
+                    areaIndex
+                  });
+                });
+                return acc;
+              }, result);
+
+              return result;
+            }
+          },
+          watch: {
+            "index.direct": {
+              immediate: true,
+              handler(value) {
+                let direct = this.directList[value] || null;
+                if (direct !== null) {
+                  this.index.city = direct.cityIndex;
+                  this.index.area = direct.areaIndex;
+                }
+              }
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

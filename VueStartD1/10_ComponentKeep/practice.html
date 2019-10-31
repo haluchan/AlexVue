@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>10_Component</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <h1>{{ step }}</h1>
+          <div>
+            <div>上一步</div>
+            <div>下一步</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script>
+      let states = {
+        step: 0,
+        mapping: [
+          { step: 0, name: "name-component" },
+          { step: 1, name: "gender-component" },
+          { step: 2, name: "area-component" }
+        ]
+      };
+
+      let NameComponent = {
+        name: "name-component",
+        data() {
+          return { name: "" };
+        },
+        template: `
+        <input v-model="name" type="text" placeholder="請輸入姓名"/>
+        `
+      };
+      let GenderComponent = {
+        name: "gender-component",
+        data() {
+          return { gender: null };
+        },
+        template: `
+        <select v-model="gender">
+          <option :value="null">請選擇性別</option>
+          <option value="1">男</option>
+          <option value="0">女</option>
+        </select>
+        `
+      };
+      let AreaComponent = {
+        name: "area-component",
+        data() {
+          return { text: "" };
+        },
+        template: `<textarea v-model="text"></textarea>`
+      };
+
+      new Vue({
+        el: "#app",
+        data: states
+      });
+    </script>
+  </body>
+</html>

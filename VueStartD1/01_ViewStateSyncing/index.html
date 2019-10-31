@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>01_ViewStateSyncing</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <h1 class="title"></h1>
+          <div>
+            <input type="text" />
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      let states = {
+        msg: "This is my message"
+      };
+      let title = document.querySelector(".title");
+      let input = document.querySelector(".input");
+
+      function updateView() {
+        title.innerText = states.msg;
+        input.value = states.msg;
+      }
+
+      updateView();
+
+      input.addEventListener("input", function(e) {
+        states.msg = this.value;
+        updateView();
+      });
+    </script>
+  </body>
+</html>

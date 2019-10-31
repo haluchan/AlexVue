@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>03_ObserveArray</title>
+  <link rel="stylesheet" href="../assets/layout.css" />
+</head>
+
+<body>
+  <div id="app">
+    <section>
+      <div class="container">
+        <h1 class="title"></h1>
+      </div>
+    </section>
+  </div>
+  <script>
+    let states = [1, 2, 3, 4];
+    let target = document.querySelector(".title");
+
+    function observableArray(ary) {
+      let data = ary
+      return {
+        push(val) {
+          data.push(val)
+        }
+      }
+    }
+    states.observableArray(states)
+  </script>
+</body>
+
+</html>

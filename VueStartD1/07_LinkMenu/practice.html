@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>05_HelloVuejs</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      .code {
+        color: #fff;
+        font-size: 20px;
+        line-height: 30px;
+        padding: 10px;
+        font-weight: bolder;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <section>
+        <div class="container">
+          <h1 v-if="index.area !== null">
+            {{ nowArea.code }} {{ nowCity.name }} {{ nowArea.name }}
+          </h1>
+          <h1 v-else>
+            請選擇縣市區域
+          </h1>
+          <select v-model="indexCity">
+            <option :value="null" >請選擇</option>
+            <option v-for="(city, index) in postal" :value="index" :key="city.name"> {{ city.name }}</option>
+          </select>
+          <select v-model="indexArea">
+            <option :value="null">請選擇</option>
+            <option v-for="(item, index) in area" :value="index" :key="item.name">{{ item.name }}</option>
+          </select>
+          <br />
+          <select style="width: calc(100% - 20px);" v-model="index.direct">
+            <option :value="null">請選擇</option>
+            <option v-for="(item, index) in directList" :key="item.name" :value="index">{{ item.name }}</option>
+          </select>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/axios.min.js"></script>
+    <script>
+      (async function() {
+        let postal = await axios
+          .get("../assets/postal.json")
+          .then(res => res.data);
+        new Vue({
+          el: "#app",
+          data: {
+            postal,
+            index: {
+              city: null,
+              area: null,
+              direct: 22
+            }
+          },
+          computed: {
+            indexCity: {
+              get(){
+                return this.index.city
+              },
+              set(val){
+                this.index.city = val;
+                this.index.area = null;
+                this.index.direct = null;
+              }
+            },
+            indexArea: {
+              get() {
+                return this.index.area
+              },
+              set(val) {
+                this.index.area = val;
+                this.index.direct = this.index.city + val;
+              }
+            },
+            indexDirect: {
+              get() {
+               return this.index.direct
+              },
+              set(val) {
+                console.log('val',val )
+                // this.index.city = val.cityIndex;
+                // this.index.area = val.areaIndex
+              }
+            },
+            nowCity() {
+              return this.index.city !== null ? this.postal[this.index.city] : null
+            },
+            area() {
+              return this.nowCity !== null ? this.nowCity.children : []
+            },
+            nowArea() {
+              return this.index.city !== null ? this.area[this.index.area] : null
+            },
+            directList() {
+              let result = [];
+              this.postal.reduce((prev, city, cityIndex) => {
+                city.children.forEach((area, areaIndex) => {
+                  result.push({
+                    name: `${area.code}  ${city.name} ${area.name}`,
+                    cityIndex,
+                    areaIndex
+                  })
+                });
+              },result);
+              return result
+            }
+          },
+          watch: {
+            'index.direct': {
+              immediate: true, // 畫面loading後馬上執行一次
+              handler( newVal, oldVal) {
+                if ( newVal !== null && this.directList[newVal]) {
+                  this.index.city = this.directList[newVal].cityIndex;
+                  this.index.area = this.directList[newVal].areaIndex
+                }
+              }
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

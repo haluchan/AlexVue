@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>06_Render</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="../assets/vue.js"></script>
+    <script>
+      let app = {
+        data() {
+          return {
+            msg: "This is my message"
+          };
+        },
+        template: `
+        <section>
+          <div class="container">
+            <h1 class="title">{{ msg }}</h1>
+            <div>
+              <input type="text" v-model="msg" />
+            </div>
+          </div>
+        </section>
+        `
+      };
+      new Vue({
+        render: h => h(app)
+      }).$mount("#app");
+    </script>
+  </body>
+</html>

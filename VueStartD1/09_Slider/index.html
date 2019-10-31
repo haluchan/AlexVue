@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>09_Slider</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .container {
+        width: 600px;
+        height: 400px;
+        margin: 10px;
+      }
+      .container > .pic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+      }
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: opacity 1s;
+      }
+      .fade-enter,
+      .fade-leave-to {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div
+          class="container"
+          @mouseenter="enterHandler"
+          @mouseenter="setTimer"
+        >
+          <transition name="fade">
+            <div class="pic" :style="nowBackground" :key="nowPic.id"></div>
+          </transition>
+        </div>
+        <!-- <transition-group tag="div" name="fade" class="container" mode="out-in">
+          <div
+            class="pic"
+            v-for="(item,index) in list"
+            v-show="index === active"
+            :style="getBackground(index)"
+            :key="item.id"
+          ></div>
+        </transition-group> -->
+        <div
+          v-if="this.list.length > 1"
+          @mouseenter="enterHandler"
+          @mouseenter="setTimer"
+        >
+          <div class="button" @click="changeHandler(active-1)">前一張</div>
+          <div
+            class="button"
+            :class="{active:active === num-1}"
+            v-for="num in list.length"
+            @click="changeHandler(num-1)"
+          >
+            {{ num }}
+          </div>
+          <div class="button" @click="changeHandler(active+1)">後一張</div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script>
+      let states = {
+        active: 0,
+        list: [
+          { id: 1, src: "../assets/images/cats/1.jpg" },
+          { id: 2, src: "../assets/images/cats/2.jpg" },
+          { id: 3, src: "../assets/images/cats/3.jpg" },
+          { id: 4, src: "../assets/images/cats/4.jpg" },
+          { id: 5, src: "../assets/images/cats/5.jpg" }
+        ]
+      };
+
+      let timer = null;
+
+      new Vue({
+        el: "#app",
+        data: states,
+        computed: {
+          nowPic() {
+            return this.list[this.active];
+          },
+          nowBackground() {
+            return this.getBackground(this.active);
+          }
+        },
+        methods: {
+          getBackground(index) {
+            return {
+              "background-image": `url("${this.list[index].src}")`
+            };
+          },
+          changeHandler(index) {
+            this.active = (index + this.list.length) % this.list.length;
+          },
+          setTimer() {
+            clearTimeout(timer);
+            timer = setTimeout(this.timerHandler, 3000);
+          },
+          timerHandler() {
+            this.changeHandler(this.active + 1);
+            this.setTimer();
+          },
+          enterHandler() {
+            clearTimeout(timer);
+          }
+        },
+        mounted() {
+          if (this.list.length > 1) {
+            this.setTimer();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

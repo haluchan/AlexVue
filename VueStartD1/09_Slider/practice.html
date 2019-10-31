@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>09_Slider</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .container {
+        width: 600px;
+        height: 400px;
+        margin: 10px;
+      }
+      .container > .pic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container"></div>
+        <div>
+          <div class="button">前一張</div>
+          <div class="button">後一張</div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script>
+      let states = {
+        active: 0,
+        list: [
+          { id: 1, src: "../assets/images/cats/1.jpg" },
+          { id: 2, src: "../assets/images/cats/2.jpg" },
+          { id: 3, src: "../assets/images/cats/3.jpg" },
+          { id: 4, src: "../assets/images/cats/4.jpg" },
+          { id: 5, src: "../assets/images/cats/5.jpg" }
+        ]
+      };
+    </script>
+  </body>
+</html>

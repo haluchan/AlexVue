@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>08_ListControl</title>
+  <link rel="stylesheet" href="../assets/layout.css"/>
+  <style>
+  .img {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    width: 120px;
+    height: 90px;
+    background-position: center;
+    background-size: cover;
+    border: 10px solid #fff;
+    border-bottom: 50px solid #fff;
+  }
+
+  .img > div {
+    position: absolute;
+    bottom: -40px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .img > div > span {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #34495e;
+    font-weight: bolder;
+  }
+
+  .img span.delete {
+    background-color: crimson;
+  }
+  </style>
+</head>
+<body>
+<div id="app">
+  <section>
+    <div class="container">
+      <div>
+        <div class="img">
+          <div>
+            <span><</span>
+            <span class="delete">X</span>
+            <span>></span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="button" style="position: relative;overflow:hidden;">
+          新增圖片
+          <input
+            class="file"
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="../assets/vue.js"></script>
+<script>
+let states = {
+  img: "",
+  list: []
+};
+</script>
+</body>
+</html>
