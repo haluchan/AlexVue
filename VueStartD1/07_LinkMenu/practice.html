@@ -59,7 +59,7 @@
             index: {
               city: null,
               area: null,
-              direct: 22
+              direct: null
             }
           },
           computed: {
@@ -79,17 +79,22 @@
               },
               set(val) {
                 this.index.area = val;
-                this.index.direct = this.index.city + val;
-              }
-            },
-            indexDirect: {
-              get() {
-               return this.index.direct
-              },
-              set(val) {
-                console.log('val',val )
-                // this.index.city = val.cityIndex;
-                // this.index.area = val.areaIndex
+                //用map 塞選出符合條件陣列,map 會回傳一樣長度的陣列,不符合的會是undefined
+                //會變[undefined,undefined,undefined,12, undefined,undefined]
+                //再用filter去掉undefined 就會剩下索引值
+                let index = this.directList.map((item, index, array) => {
+                  if(item.cityIndex === this.index.city && item.areaIndex === this.index.area){
+                    return index
+                    // 也可回傳物件
+                  }
+                }).filter( (indexItem) => {
+                  if( indexItem !== undefined){
+                    return indexItem
+                  }
+                });
+                console.log(index);
+                // console.log(index)
+                this.index.direct = index[0]
               }
             },
             nowCity() {
@@ -105,12 +110,13 @@
               let result = [];
               this.postal.reduce((prev, city, cityIndex) => {
                 city.children.forEach((area, areaIndex) => {
-                  result.push({
+                  prev.push({
                     name: `${area.code}  ${city.name} ${area.name}`,
                     cityIndex,
                     areaIndex
                   })
                 });
+                return prev
               },result);
               return result
             }
