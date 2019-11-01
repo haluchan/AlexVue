@@ -48,11 +48,17 @@
   <section>
     <div class="container">
       <div>
-        <div class="img">
+        <div class="img"
+        v-for=" (item , index) in list"
+        :key="list.id"
+        :style="getImageStyle(index)"
+        >
           <div>
-            <span><</span>
-            <span class="delete">X</span>
-            <span>></span>
+            <span @click="changeIndex(index, -1)"><</span>
+            <span class="delete"
+                  @click="deleteHandler(index)"
+            >X</span>
+            <span @click="changeIndex(index, 1)">></span>
           </div>
         </div>
       </div>
@@ -60,9 +66,10 @@
         <div class="button" style="position: relative;overflow:hidden;">
           新增圖片
           <input
+            @change="fileHandler"
             class="file"
-            ref="fileInput"
             type="file"
+            ref="fileInput"
             accept="image/*"
           />
         </div>
@@ -76,6 +83,59 @@ let states = {
   img: "",
   list: []
 };
+let reader = new FileReader();
+new Vue({
+  el: '#app',
+  data: states,
+  methods: {
+    fileHandler(e) {
+      reader.readAsDataURL(e.target.files[0]);
+      //非同步所以再用個method來處理
+
+    },
+    fileLoadedHandler(e) {
+    //使用refs來獲取dom元素，不要使用document.get來控制
+      let input = this.$refs.fileInput;
+      //如果上傳圖片一直選同一張不會觸發change，因為file的內容沒有改變，所以要清除file的內容
+      //改變input type來清除 input file 內容，因為file是唯讀的，不能寫入，所以藉由改變type來清除
+      input.type = 'text';
+      input.type = 'file';
+      // console.log(this.$refs );
+      this.list.push({
+        id: new Date().getTime(),
+        src: e.target.result
+      })
+    },
+    deleteHandler(index) {
+      this.list.splice(index,1)
+    },
+    getImageStyle(index) {
+      return {
+        backgroundImage : `url('${this.list[index].src}')`
+      }
+    },
+    //改變排序
+    changeIndex(index, direct) {
+      if( index + direct >= 0 && index + direct <= this.list.length ){
+        // vue 本身只有監聽某些陣列方法, 直接使用陣列交換方法只會改變參數，無法觸發畫面更新
+        // 方法一 使用Vue 有監聽的array function => 建議使用此方法
+        let target = this.list.splice(index ,1)[0]; // splice回傳是陣列，把值直接傳出
+        this.list.splice( index + direct , 0, target);
+        // 方法二 使用$set強制寫入觸發畫面更新
+        // let temp =  this.list[index];
+        // console.log('temp', temp);
+        // this.$set(this.list, index, this.list[index + direct]);
+        // this.$set(this.list, index + direct, temp)
+
+      }
+    }
+  },
+  mounted() {
+    // fileReader在loading時觸發handler
+    //不用重覆註冊，所以寫在mounted
+    reader.onload = this.fileLoadedHandler
+  }
+})
 </script>
 </body>
 </html>
