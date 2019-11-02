@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>03_RouteScript</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .router-link-exact-active {
+        color: #ffffff;
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <div class="button">上一頁</div>
+          <div class="button">下一頁</div>
+          <br />
+          <div class="button">前往首頁</div>
+          <div class="button">前往從零開始</div>
+          <div class="button">前往更進一步</div>
+          <br />
+          <label><input type="checkbox" /> 取代</label>
+          <transition name="fade">
+            <router-view></router-view>
+          </transition>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vue-router.js"></script>
+    <script>
+      let index = {
+        template: `
+              <div class="page">
+                <h1>哈囉大家好我是Alex，歡迎來到Alex宅幹嘛</h1>
+              </div>
+            `
+      };
+      let start = {
+        template: `
+            <div class="page">
+              <h1>Vue.js 從零開始</h1>
+            </div>
+          `
+      };
+      let advance = {
+        template: `
+            <div class="page">
+              <h1>Vue.js 更進一步</h1>
+            </div>
+          `
+      };
+      let router = new VueRouter({
+        routes: [
+          { path: "/", component: index },
+          { path: "/start", component: start },
+          { path: "/advance", name: "advance", component: advance }
+        ]
+      });
+
+      new Vue({
+        el: "#app",
+        data: {
+          replace: false
+        },
+        router: router
+      });
+    </script>
+  </body>
+</html>

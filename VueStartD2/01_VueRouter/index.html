@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>01_VueRouter</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .router-link-exact-active {
+        color: #ffffff;
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+<!--          tag 指定render後 tag 會變成div 預設是a 樣式是button 這是vueRouter預設 -->
+<!--          用路徑綁定 -->
+          <router-link tag="div" class="button" to="/">首頁</router-link>
+          <router-link tag="div" class="button" to="/start"
+            >Vue 從零開始</router-link
+          >
+<!--          用name 綁定 -->
+          <router-link tag="div" class="button" :to="{name:'advance'}"
+            >Vue 更進一步</router-link
+          >
+          <router-view></router-view>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vue-router.js"></script>
+    <script>
+      let index = {
+        template: `
+            <div class="page">
+              <h1>哈囉大家好我是Alex，歡迎來到Alex宅幹嘛</h1>
+            </div>
+          `
+      };
+      let start = {
+        template: `
+          <div class="page">
+            <h1>Vue.js 從零開始</h1>
+          </div>
+        `
+      };
+      let advance = {
+        template: `
+          <div class="page">
+            <h1>Vue.js 更進一步</h1>
+          </div>
+        `
+      };
+      let router = new VueRouter({
+        mode: "hash", // 預設 hash 有#號，不需後端配合， history 沒有#號，但一定要後端配合，所有路徑都導向同一個檔案
+        routes: [
+          { path: "/", component: index },
+          { path: "/start", component: start },
+          { path: "/advance", name: "advance", component: advance },
+        //  其他路徑導向 一定要放後一個
+          { path: "*", redirect: "/"}
+        ]
+      });
+
+      new Vue({
+        el: "#app",
+        router: router
+      });
+    </script>
+  </body>
+</html>

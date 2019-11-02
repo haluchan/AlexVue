@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>02_NestRoute</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .router-link-exact-active {
+        color: #ffffff;
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <router-view></router-view>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vue-router.js"></script>
+    <script>
+      let framework = {
+        template: `
+            <div class="page">
+              <h1>VAR 前端三大框架</h1>
+              <router-link tag="div" class="button" to="/framework/vue">
+                Vue.js
+              </router-link>
+              <router-link tag="div" class="button" to="/framework/angular">
+                Angular
+              </router-link>
+              <router-link tag="div" class="button" to="/framework/react">
+                React
+              </router-link>
+              <transition name="fade" mode="out-in" appear>
+                <router-view></router-view>
+              </transition>
+            </div>
+          `
+      };
+      let vue = {
+        template: `
+          <h1 class="page">
+            Vue.js
+          </h1>
+        `
+      };
+      let angular = {
+        template: `
+          <h1 class="page">
+            Angular
+          </h1>
+        `
+      };
+      let react = {
+        template: `
+          <h1 class="page">
+            React
+          </h1>
+        `
+      };
+    </script>
+  </body>
+</html>

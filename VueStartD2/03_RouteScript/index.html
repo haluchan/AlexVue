@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>03_RouteScript</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+    <style>
+      .router-link-exact-active {
+        color: #ffffff;
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <div class="button" @click="go(-1)">上一頁</div>
+          <div class="button" @click="go(1)">下一頁</div>
+          <br />
+          <div class="button" @click="to('/')">前往首頁</div>
+          <div class="button" @click="to('/start')">前往從零開始</div>
+          <div class="button" @click="to('/advance')">前往更進一步</div>
+          <br />
+          <label><input type="checkbox" v-model="replace" /> 取代</label>
+          <label><input type="checkbox" v-model="fav" value="vue" /> vue</label>
+          <label><input type="checkbox" v-model="fav" value="angular"/> angular</label>
+          <label><input type="checkbox" v-model="fav" value="react"/> react</label>
+          <transition name="fade" mode="out-in" appear>
+            <router-view :key="$route.fullPath"></router-view>
+          </transition>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vue-router.js"></script>
+    <script>
+      let index = {
+        template: `
+              <div class="page">
+                <h1>哈囉大家好我是Alex，歡迎來到Alex宅幹嘛</h1>
+              </div>
+            `
+      };
+      let start = {
+        template: `
+            <div class="page">
+              <h1>Vue.js 從零開始</h1>
+            </div>
+          `
+      };
+      let advance = {
+        template: `
+            <div class="page">
+              <h1>Vue.js 更進一步</h1>
+            </div>
+          `
+      };
+      let router = new VueRouter({
+        routes: [
+          { path: "/", component: index },
+          { path: "/start", component: start },
+          { path: "/advance", name: "advance", component: advance }
+        ]
+      });
+
+      new Vue({
+        el: "#app",
+        data: {
+          replace: false,
+          fav: []
+        },
+        router: router,
+        methods: {
+          go(direct) {
+            this.$router.go(direct);
+          },
+          to(path) {
+            //push 同一頁會報錯 所以用程式取消
+            if (this.$route.path === path) return false;
+            if (this.replace) {
+              // 用replace 就不會有上下頁
+              this.$router.replace(path);
+            } else {
+              this.$router.push(path);
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

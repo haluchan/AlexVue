@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>05_Vuex</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <h1>{{ count }}</h1>
+          <div class="button" @click="count++">+</div>
+          <div class="button" @click="count--">-</div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vuex.js"></script>
+    <script>
+      let store = new Vuex.Store({
+        strict: true,
+        state: {
+          count: 0
+        },
+        mutations: {
+          change: function(state, data) {
+            state.count = data;
+          }
+        }
+      });
+
+      new Vue({
+        el: "#app",
+        store,
+        computed: {
+          count: {
+            get() {
+              return this.$store.state.count;
+            },
+            set(val) {
+              // this.$store.state.count = val;
+              this.$store.commit("change", val);
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>07_Module</title>
+    <link rel="stylesheet" href="../assets/layout.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <router-link tag="div" class="button" to="/">首頁</router-link>
+          <router-link tag="div" class="button" to="/start"
+            >Vue 從零開始</router-link
+          >
+          <router-link tag="div" class="button" :to="{name:'advance'}"
+            >Vue 更進一步</router-link
+          >
+          <router-view></router-view>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/vue.js"></script>
+    <script src="../assets/vue-router.js"></script>
+    <script src="../assets/vuex.js"></script>
+    <script>
+      let index = {
+        template: `
+          <div class="page">
+            <h1>哈囉大家好我是Alex，歡迎來到Alex宅幹嘛</h1>
+            <message></message>
+            <counter></counter>
+          </div>
+        `
+      };
+
+      let message = {
+        template: `
+          <div>
+            <h1>{{ message }}</h1>
+            <input type="text" v-model="message">
+          </div>
+        `,
+        computed: {
+          message: {
+            get: function() {
+              return this.$store.state.message.message;
+            },
+            set: function(val) {
+              this.$store.commit("message/CHANGE", val);
+            }
+          }
+        }
+      };
+      Vue.component("message", message);
+
+      let counter = {
+        template: `
+          <div>
+            <input type="text" v-model="count">
+            <p>
+              <input type="button" value="+"
+                @click="increment">
+              <input type="button" value="-"
+                @click="decrement">
+            </p>
+          </div>
+        `,
+        computed: {
+          count: {
+            get: function() {
+              return this.$store.state.counter
+                ? this.$store.state.counter.count
+                : 0;
+            },
+            set: function(val) {
+              this.$store.commit("counter/CHANGE", val);
+            }
+          }
+        },
+        methods: {
+          increment: function() {
+            this.$store.commit("counter/INCREMENT");
+          },
+          decrement: function() {
+            this.$store.commit("counter/DECREMENT");
+          }
+        },
+        mounted() {
+          if (!this.$store.hasModule("counter")) {
+            this.$store.registerModule("counter", counterModule());
+          }
+        }
+      };
+      Vue.component("counter", counter);
+
+      let start = {
+        template: `
+          <div class="page">
+            <h1>Vue.js 從零開始</h1>
+            <message></message>
+          </div>
+        `
+      };
+      let advance = {
+        template: `
+          <div class="page">
+            <h1>Vue.js 更進一步</h1>
+            <counter></counter>
+          </div>
+        `,
+        beforeDestroy() {
+          if (this.$store.hasModule("counter")) {
+            this.$store.unregisterModule("counter");
+          }
+        }
+      };
+      let router = new VueRouter({
+        routes: [
+          { path: "/", component: index },
+          { path: "/start", component: start },
+          { path: "/advance", name: "advance", component: advance }
+        ]
+      });
+      let messageModule = function() {
+        return {
+          namespaced: true,
+          state: {
+            message: "Hello Vue!!!"
+          },
+          mutations: {
+            CHANGE: function(state, data) {
+              state.message = data;
+            }
+          }
+        };
+      };
+
+      let counterModule = function() {
+        return {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          mutations: {
+            CHANGE: function(state, data) {
+              state.count = data;
+            },
+            INCREMENT: function(state) {
+              state.count++;
+            },
+            DECREMENT: function(state) {
+              state.count--;
+            }
+          }
+        };
+      };
+      let store = new Vuex.Store({
+        strict: true,
+        modules: {
+          message: messageModule()
+        }
+      });
+      Vuex.Store.prototype.hasModule = function(module) {
+        return this._modules.root._children[module] !== undefined;
+      };
+
+      new Vue({
+        el: "#app",
+        store,
+        router
+      });
+    </script>
+  </body>
+</html>
