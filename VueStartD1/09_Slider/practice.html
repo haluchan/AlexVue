@@ -1,50 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>09_Slider</title>
-    <link rel="stylesheet" href="../assets/layout.css" />
-    <style>
-      .container {
-        width: 600px;
-        height: 400px;
-        margin: 10px;
-      }
-      .container > .pic {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-position: center;
-        background-size: cover;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app">
-      <section>
-        <div class="container"></div>
-        <div>
-          <div class="button">前一張</div>
-          <div class="button">後一張</div>
-        </div>
-      </section>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>09_Slider</title>
+  <link rel="stylesheet" href="../assets/layout.css"/>
+  <style>
+  .container {
+    width: 600px;
+    height: 400px;
+    margin: 10px;
+  }
+
+  .radius-button {
+    background: transparent;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: transparent;
+    border: 1px #fff solid;
+  }
+
+  .active {
+    background: #888;
+    border: 1px #888 solid;
+  }
+
+  .container > div .pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .button {
+    width: 20px;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    background: transparent;
+    line-height: 20px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .fade-enter-active, .fade-leave-active{
+    transition: opacity 1s;
+  }
+  .fade-enter, .fade-leave-to{
+    opacity: 0;
+  }
+  </style>
+</head>
+<body>
+<div id="app">
+  <section>
+    <div class="container">
+      <transition-group
+        appear
+        tag="div"
+        name="fade"
+        @mouseenter.native="mouseEnterHandler"
+        @mouseleave.native="mouseLeaveHandler"
+      >
+        <div
+          class="pic"
+          v-for="(item, index) in list"
+          v-show="index === active"
+          :style="backgroundImage(index)"
+          :key="item.id"
+        ></div>
+      </transition-group>
     </div>
-    <script src="../assets/vue.js"></script>
-    <script>
-      let states = {
-        active: 0,
-        list: [
-          { id: 1, src: "../assets/images/cats/1.jpg" },
-          { id: 2, src: "../assets/images/cats/2.jpg" },
-          { id: 3, src: "../assets/images/cats/3.jpg" },
-          { id: 4, src: "../assets/images/cats/4.jpg" },
-          { id: 5, src: "../assets/images/cats/5.jpg" }
-        ]
-      };
-    </script>
-  </body>
+    <div>
+      <div class="button"
+           @click="directPic(active-1)"
+           @mouseenter="mouseEnterHandler"
+           @mouseleave="mouseLeaveHandler"
+      ><
+      </div>
+      <span v-for="(item,index) in list.length"
+            class="radius-button"
+            :class="{active : active === index}"
+            @click="changeHandler(index)"
+      >
+        {{ item }}
+      </span>
+      <div class="button"
+           @click="directPic(active+1)"
+           @mouseenter="mouseEnterHandler"
+           @mouseleave="mouseLeaveHandler"
+      >>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="../assets/vue.js"></script>
+<script>
+let states = {
+  active: 0,
+  list: [
+    {id: 1, src: "../assets/images/cats/1.jpg"},
+    {id: 2, src: "../assets/images/cats/2.jpg"},
+    {id: 3, src: "../assets/images/cats/3.jpg"},
+    {id: 4, src: "../assets/images/cats/4.jpg"},
+    {id: 5, src: "../assets/images/cats/5.jpg"}
+  ]
+};
+let timer = null;
+new Vue({
+  el: "#app",
+  data: states,
+  methods: {
+    changeHandler(index) {
+      this.active = index
+    },
+    backgroundImage(index) {
+      return {
+        "background-image": `url("${this.list[index].src}")`
+      }
+    },
+    directPic(active) {
+      this.active = (active + this.list.length) % this.list.length
+    },
+    timerHandler() {
+      this.directPic(this.active + 1);
+      this.setTimer();
+    },
+    setTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(this.timerHandler, 3000)
+    },
+    mouseEnterHandler() {
+      clearTimeout(timer)
+    },
+    mouseLeaveHandler() {
+      this.timerHandler()
+    }
+  },
+  mounted() {
+    this.setTimer();
+  }
+})
+</script>
+</body>
 </html>

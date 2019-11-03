@@ -52,7 +52,9 @@
     <!--    作法2 -->
 
     <!--        自定義模組@mouseenter事件後要加native來告訴瀏覽器這是mouseenter事件   appear 第一次就有動態效果-->
-    <transition-group tag="div" name="fade" class="container" mode="out-in"
+    <!--    v-for 配合  transition-group  使用，render多個loop出來的組件-->
+    <!--    vue2.0 刪除了mode 屬性 -->
+    <transition-group tag="div" name="fade" class="container" mode="out-in" appear="appear"
                       @mouseenter.native="enterHandler"
                       @mouseleave.native="setTimer">
       <div
