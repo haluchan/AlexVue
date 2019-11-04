@@ -103,11 +103,11 @@
         methods: {
           stepHandler(direct) {
             this.step =
-              this.step + direct < 0
-                ? 0 // if
+              this.step + direct < 0 // if
+                ? 0 // 答案
                 : this.step + direct >= this.total - 1 // else if
-                ? this.total - 1 // else
-                : this.step + direct;
+                ? this.total - 1 // 答案
+                : this.step + direct; // else
           },
           submitHandler() {}
         },

@@ -10,11 +10,51 @@
   <body>
     <div id="app">
       <section>
-        <div class="container"></div>
+        <div class="container">
+          <router-link tag="div" class="button" to="/">首頁</router-link>
+          <router-link tag="div" class="button" to="/start">Vue 從零開始</router-link>
+          <router-link tag="div" class="button" to="/advance">Vue 更進一步</router-link>
+          <router-view></router-view>
+        </div>
       </section>
     </div>
     <script src="../assets/vue.js"></script>
     <script src="../assets/vue-router.js"></script>
-    <script></script>
+    <script>
+    let index = {
+      template: `
+            <div class="page">
+              <h1>哈囉大家好我是Alex，歡迎來到Alex宅幹嘛</h1>
+            </div>
+          `
+    };
+    let start = {
+      template: `
+          <div class="page">
+            <h1>Vue.js 從零開始</h1>
+          </div>
+        `
+    };
+    let advance = {
+      template: `
+          <div class="page">
+            <h1>Vue.js 更進一步</h1>
+          </div>
+        `
+    };
+    let router = new VueRouter({
+      routes:[
+        { path:'/', component: index},
+        { path:'/start', component: start},
+        { path:'/advance', component: advance},
+        { path:'*', redirect:'/'}
+      ]
+    });
+
+    new Vue({
+      el:'#app',
+      router: router
+    })
+    </script>
   </body>
 </html>
