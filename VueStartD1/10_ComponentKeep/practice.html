@@ -12,8 +12,8 @@
       <section>
         <div class="container">
           <h1>{{ step + 1 }}</h1>
-          <keep-alive>
-            <component :is="nowComponent" :include="stepComponent"></component>
+          <keep-alive :include="stepComponent">
+            <component :is="nowComponent"></component>
           </keep-alive>
           <div>
             <div class="button"
