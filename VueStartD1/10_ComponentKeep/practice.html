@@ -11,10 +11,19 @@
     <div id="app">
       <section>
         <div class="container">
-          <h1>{{ step }}</h1>
+          <h1>{{ step + 1 }}</h1>
+          <keep-alive>
+            <component :is="nowComponent" :include="stepComponent"></component>
+          </keep-alive>
           <div>
-            <div class="button">上一步</div>
-            <div class="button">下一步</div>
+            <div class="button"
+                 @click="stepHandler(-1)"
+                 :class="{ lock:step === 0 }"
+            >上一步</div>
+            <div class="button"
+                 @click="stepHandler(1)"
+                 :class="{ lock:step === mapping.length-1 }"
+            >下一步</div>
           </div>
         </div>
       </section>
@@ -62,7 +71,37 @@
 
       new Vue({
         el: "#app",
-        data: states
+        data: states,
+        components:{
+          NameComponent,
+          GenderComponent,
+          AreaComponent,
+        },
+        computed: {
+          nowComponent() {
+            return this.mapping.filter((item) => {
+              return item.step === this.step
+            })[0].name
+          },
+          stepComponent() {
+            return this.mapping.reduce((acc,current) => {
+              if( current.step <= this.step ) {
+                  acc.push(current.name)
+              }
+              return acc
+            },[])
+          }
+        },
+        methods: {
+          stepHandler(direct) {
+              this.step =
+                this.step + direct < 0
+                  ? 0
+                  : this.step + direct >= this.mapping.length
+                  ? this.mapping.length - 1
+                  : this.step + direct
+          }
+        }
       });
     </script>
   </body>

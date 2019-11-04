@@ -90,8 +90,9 @@
           keepPrevStep() {
             return this.mapping.reduce((acc, current) => {
               if (current.step <= this.step) {
-                acc.push(current.name);
+                acc.push(current.name); // 把使用過的component存起來辨識
               }
+              // console.log('acc',acc )
               return acc;
             }, []);
           },
