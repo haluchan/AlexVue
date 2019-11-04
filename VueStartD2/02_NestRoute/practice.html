@@ -64,6 +64,26 @@
           </h1>
         `
       };
+      let router = new VueRouter({
+        routes: [
+          {
+            path: "/framework",
+            component: framework,
+            children: [
+              { path: "", component: vue },
+              { path: "vue", component: vue },
+              { path: "angular", component: angular },
+              { path: "react", component: react },
+              { path: "*", redirect: vue }
+            ]
+          },
+          { path: "*", redirect: "/framework" }
+        ]
+      });
+      new Vue({
+        el: "#app",
+        router: router
+      });
     </script>
   </body>
 </html>
