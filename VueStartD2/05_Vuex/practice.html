@@ -10,11 +10,75 @@
   <body>
     <div id="app">
       <section>
-        <div class="container"></div>
+        <div class="container">
+          <h1>{{ count }}</h1>
+          <div class="button" @click="count++">+</div>
+          <div class="button" @click="count--">-</div>
+          <view-component></view-component>
+        </div>
       </section>
     </div>
     <script src="../assets/vue.js"></script>
     <script src="../assets/vuex.js"></script>
-    <script></script>
+    <script>
+      let store = new Vuex.Store({
+        // Store 一定要大寫
+        strict: true, // 嚴僅模式 上線一定要關很耗資源
+        state: {
+          count: 0
+        },
+        mutations: {
+          changeCount(state, { count }) {
+            if (count >= 0) {
+              state.count = count;
+            }
+          }
+        }
+      });
+      let ViewComponent = {
+        template: `
+      <div>
+        <h1>show {{ count }}</h1>
+      </div>`,
+        // props: ["count"],
+        // props: {
+        //   count: {
+        //     required: true,
+        //     type: Number
+        //   }
+        // },
+        store,
+        computed: {
+          count: {
+            get() {
+              return this.$store.state.count;
+            }
+          }
+        }
+      };
+      new Vue({
+        el: "#app",
+        store,
+        // data() {
+        //   return {
+        //     count: 0
+        //   };
+        // },
+        computed: {
+          count: {
+            get() {
+              return this.$store.state.count;
+            },
+            set(value) {
+              // this.$store.state.count = value   //嚴謹模式 下會報錯，要透過mutation,透過mutation把關資料
+              this.$store.commit("changeCount", { count: value });
+            }
+          }
+        },
+        components: {
+          ViewComponent
+        }
+      });
+    </script>
   </body>
 </html>

@@ -89,6 +89,9 @@
           }
         },
         mounted() {
+          // 如果store 裡 counter module不存在的話 ，註冊counter module
+          // 如果不判斷，資料會被清除，但方法會重覆，導致資料加倍
+          // ***** registerModule 註冊的 module 就可以移除 *******
           if (!this.$store.hasModule("counter")) {
             this.$store.registerModule("counter", counterModule());
           }
@@ -112,9 +115,14 @@
           </div>
         `,
         beforeDestroy() {
+          // 方法一
+          // ***** registerModule 註冊的 module 就可以移除 *******
+          // 移除 counter module
           if (this.$store.hasModule("counter")) {
             this.$store.unregisterModule("counter");
           }
+          // 方法二 不移除module 重設count, 網站越大越不建議，module還在 loading 較重
+          // this.$store.state.counter.count = 0
         }
       };
       let router = new VueRouter({
@@ -124,6 +132,8 @@
           { path: "/advance", name: "advance", component: advance }
         ]
       });
+
+      // 為什麼模組data要用函式 return ? => store module 要用函式回傳值，才能重覆實體化，避免資料重覆
       let messageModule = function() {
         return {
           namespaced: true,

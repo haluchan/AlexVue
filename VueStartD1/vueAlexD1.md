@@ -3,7 +3,7 @@
 ## SPA與框架的意義
 ### SPA(Single Page Application) vs SSR(Server Side Rendering)
 
-![](https://i.imgur.com/jhoxmZD.png)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvo1r9h7j31000mcalo.jpg)
 
 SSR(整頁後端產生好)優點:
 1.SEO
@@ -35,7 +35,7 @@ SEO => SSR
 
 面試題:為甚麼要用框架，主要能解決甚麼問題?
  => 讓畫面與狀態(資料)同步
- 
+
 ## 範例1
 使用js手動更新問題:
 當遇到畫面改變時，
@@ -50,7 +50,7 @@ Vue     : 一開始為了輕便操作畫面而製作
 面試題:為什麼Vue.js不用像React一樣自行指定畫面更新?(shouldcomponentupdate)
  => Vue幫你做了，diff不同
  => React diff DOM / Vue diff Data
- 
+
 ## Hello Vue.js
 1.良好的性能
 2.平緩的學習曲線
@@ -61,7 +61,7 @@ MVVM:資料與畫面的同步
 Vue2 => 攔截做事情
 
 MVC與MVVM => 中介者的差異
-![](https://i.imgur.com/MDxR3Qf.png)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvo6zdvwj30sp0jhafo.jpg)
 
 (1) Object.defineProperty
 ```javascript=
@@ -169,8 +169,8 @@ new Vue({
 2.vue使用攔截
 
 ## observable
-![](https://i.imgur.com/ykEnPsg.png)
-![](https://i.imgur.com/EFZOsW0.png)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvocdlj8j312t0nvjyg.jpg)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvogfl94j30zf0ptwqr.jpg)
 
 ## 資料與畫面延伸處理
 methods(方法) vs computed(計算)
@@ -217,7 +217,7 @@ new Vue({
 <h1 v-else>請選擇縣市區域</h1>
 ```
 6. computed兩種格式 (1)function(不能set,單純get) (2) 物件(可以有get/set功能)
-![](https://i.imgur.com/8dBxhzK.png)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvomw8l6j30yj0lrq9p.jpg)
 7. reduce (第三個參數是index)
 ```javascript=
 let ary = ["a", "b", "c", "d"];
@@ -274,7 +274,7 @@ this.list[index + direct] = temp;
 ```
 8. Vue只要畫面沒有即時改變，就是錯了
 9. splice
-![](https://i.imgur.com/ZhYUtdd.png)
+![](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvos83alj313h0ndtcw.jpg)
 10. $set => 強制觸發畫面更新
 
 

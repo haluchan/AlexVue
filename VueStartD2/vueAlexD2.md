@@ -72,7 +72,7 @@ change(index) {
 }
 ```
 
-![img](/Users/halu/Pictures/md/yyXmB0v.png)
+![img](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvmpk9p4j317p0jhguq.jpg)
 \3. 共用變數可移到共用computed
 寫在外面可以讓更多人用
 
@@ -99,7 +99,7 @@ computed:{
    (3)background-image
    :style="{‘background-image’:`url(${nowPic.src})`}"
 4. 動畫效果
-   ![img](/Users/halu/Pictures/md/epIzExJ.png)
+   ![img](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvmu5gr1j30wg0cmdig.jpg)
    4個點
    enter/enter-to/leave/leave-to
 
@@ -214,7 +214,7 @@ metods:每一次
 computed vs watch
 computed:寫入前
 watch:寫入後
-![img](/Users/halu/Pictures/md/hXZyWZm.png)
+![img](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvmyu5lxj310g0m7aip.jpg)
 
 # 下午場
 
@@ -283,7 +283,7 @@ let Components = {
 ## 路由器
 
 後端路由 vs 前端路由
-![img](/Users/halu/Pictures/md/Ti1FftI.png)
+![img](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvn3shzuj30sn0kmgpq.jpg)
 
 hash mode vs history mode
 hash mode:使用#，網頁不會重load，但無法提升SEO
@@ -362,7 +362,7 @@ let router = new VueRouter({
 ## 範例2
 
 巢狀結構
-![img](/Users/halu/Pictures/md/QJ9TCSd.png)
+![img](https://tva1.sinaimg.cn/large/006y8mN6gy1g8rvn91ifsj30ue0l40yj.jpg)
 每一層會有一個route-view
 每一層對應一個component
 

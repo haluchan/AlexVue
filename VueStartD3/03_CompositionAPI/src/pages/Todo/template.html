@@ -1,0 +1,30 @@
+<div>
+  <form @submit.prevent="addTodo">
+    <input type="text" v-model.trim="state.text" />
+  </form>
+  <div v-if="state.todos.length">
+    <label>
+      <input type="radio" :value="null" v-model="state.filter" />
+      全部
+    </label>
+    <label>
+      <input type="radio" :value="true" v-model="state.filter" />
+      已完成
+    </label>
+    <label>
+      <input type="radio" :value="false" v-model="state.filter" />
+      未完成
+    </label>
+  </div>
+  <table class="todos">
+    <tr v-for="item in filtedTodos" :key="item.tid" :class="{done:item.done}">
+      <td>
+        <input type="checkbox" v-model="item.done" />
+      </td>
+      <td>{{ item.text }}</td>
+      <td>
+        <button @click="deleteTodo(item.tid)">刪除</button>
+      </td>
+    </tr>
+  </table>
+</div>
