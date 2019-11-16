@@ -17,6 +17,8 @@
 let timer = null;
 export default {
   name: "SliderNav",
+  // 不用透過父傳子概念，可以跨層傳遞(共用資料)
+  // provide inject 接收
   inject: ["sliderList"],
   props: {
     current: {
@@ -53,6 +55,10 @@ export default {
     }
   },
   watch: {
+    //建議下面寫法，可以立即啟動
+    // auto(newVal, oldVal){
+    //   this.auto = oldVal
+    // }
     auto: {
       immediate: true,
       handler(value) {

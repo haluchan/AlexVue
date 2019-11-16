@@ -1,12 +1,13 @@
 <template>
   <div class="slider__list">
-    <transition-group name="fade" appear>
+    <transition-group name="fade" appear tag="div">
       <SliderView
         v-for="(item,index) in sliderList"
         :key="item.id"
         :src="item.src"
         v-show="index === current"
       ></SliderView>
+      <!-- transition 一定要給key 否則不會動，vue無法辨認是哪個 -->
     </transition-group>
   </div>
 </template>

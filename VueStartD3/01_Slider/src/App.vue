@@ -8,6 +8,7 @@
 <script>
 import axios from "axios";
 import Slider from "@/components/Slider";
+// @是絕對路徑 vue 預設在src下
 
 export default {
   name: "app",
@@ -20,6 +21,7 @@ export default {
   components: {
     Slider
   },
+  // async 不會改成非同步，vue還是用同步概念，只是會了裡面可以用await
   async mounted() {
     this.list = await axios
       .get("slider.json")
