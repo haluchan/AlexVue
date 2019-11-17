@@ -1,0 +1,43 @@
+<div id="app">
+  <User
+    v-for="user in users"
+    :key="user.name"
+    :username="user.username"
+    :gender="user.gender"
+    :age="user.age"
+  >
+    <component
+      :is="type"
+      slot="user"
+      slot-scope="data"
+      :username="data.username"
+      :gender="data.gender"
+      :age="data.age"
+    ></component>
+  </User>
+  <!-- <Mixin></Mixin>
+  <HOC></HOC>
+  <RenderLess>
+    <MousePosition slot="component" slot-scope="data" :x="data.x" :y="data.y"></MousePosition>
+  </RenderLess>
+  <h3>Composition</h3>-->
+  <MousePosition :x="myX" :y="myY"></MousePosition>
+  <table>
+    <tr v-for="user in users" :key="user.username">
+      <td>{{user.username}}</td>
+      <td>{{user.gender}}</td>
+      <td>{{user.age}}</td>
+    </tr>
+  </table>
+
+  <div>
+    <component
+      :is="item.type"
+      v-for="(item,index) in form"
+      :key="index"
+      :title="item.title"
+      :value.sync="item.value"
+    >
+    </component>
+  </div>
+</div>

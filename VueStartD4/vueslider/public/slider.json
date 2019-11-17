@@ -1,0 +1,9 @@
+{
+  "list": [
+    { "id": 1, "src": "./images/cats/1.jpg" },
+    { "id": 2, "src": "./images/cats/2.jpg" },
+    { "id": 3, "src": "./images/cats/3.jpg" },
+    { "id": 4, "src": "./images/cats/4.jpg" },
+    { "id": 5, "src": "./images/cats/5.jpg" }
+  ]
+}
