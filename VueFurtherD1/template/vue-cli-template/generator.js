@@ -1,4 +1,5 @@
 module.exports = (api, options) => {
+  // 處理package.json
   api.extendPackage({
     scripts: {
       serve: "vue-cli-service serve",
@@ -27,5 +28,8 @@ module.exports = (api, options) => {
       "*.{js,vue}": ["vue-cli-service lint", "git add"]
     }
   });
+  // 處理File
+  // .開頭檔案要換成_
+  // _開頭檔案要換成__
   api.render("./template");
 };
