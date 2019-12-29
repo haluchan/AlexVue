@@ -1,0 +1,45 @@
+{
+  "name": "nuxt-ssr-example",
+  "version": "1.0.0",
+  "description": " ",
+  "author": "Alex Chen",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server --ignore 'db/*.json' ",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .html,.js,.vue . --fix"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.8.4",
+    "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/eslint-config": "^2.0.0",
+    "@nuxtjs/router": "^1.5.0",
+    "babel-eslint": "^10.0.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-nuxt": "^0.5.0",
+    "eslint-plugin-vue": "^6.0.1",
+    "express": "^4.16.4",
+    "lint-staged": "^9.5.0",
+    "lowdb": "^1.0.0",
+    "nuxt": "^2.0.0",
+    "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{html,js,vue}": [
+      "npm run lint",
+      "git add"
+    ]
+  }
+}

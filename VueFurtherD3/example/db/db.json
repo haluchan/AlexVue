@@ -1,0 +1,21 @@
+{
+  "users": {
+    "autoIndex": 1,
+    "list": []
+  },
+  "posts": {
+    "autoIndex": 2,
+    "list": [
+      {
+        "id": "1",
+        "content": "Hello Everyone!!! PLZ login your Facebook Account and leave your message.",
+        "time": 1575500000000,
+        "user": {
+          "id": "0",
+          "name": "Mark Zuckerberg",
+          "picture": "http://graph.facebook.com/4/picture?type=small"
+        }
+      }
+    ]
+  }
+}
